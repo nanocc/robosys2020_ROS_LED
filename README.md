@@ -25,9 +25,11 @@ $ cd robosys2020_LED
 $ make
 $ sudo insmod myled.ko
 $ sudo chmod 666 /dev/myled0
+
+$ cd ~/catkin_ws/src
+$ git clone https://github.com/nanocc/robosys2020_ROS_LED.git
 $ cd ..
-$ git clone https://github.com/nanocc/robosys2020_ROS.git
-$ cd robosys2020_ROS
+$ catkin_make
 $ roslaunch mypkg mypkg.launch
 ```
 
@@ -54,7 +56,7 @@ $ make clean
 https://www.youtube.com/watch?v=CtdgQqRCb1Y
 
 ## 参考資料
-- HTML，Javascriptの記述を参考にさせて頂きました [https://github.com/ryuichiueda/robosys2019/blob/master/md/13_ros.md]
+- HTML，Javascriptの記述を参考にさせて頂きました [https://github.com/ryuichiueda/robosys2020/blob/master/md/13_ros.md]
 
 ## ライセンス
 [GNU General Public License v3.0](https://github.com/nanocc/robosys2020_ROS/blob/main/COPYING)
