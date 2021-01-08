@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>LED Command</title>
+    <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+    var Listener = {
+        ros : null,
+        name : "",
+        init : function(){
+            this.ros = new ROSLIB.Ros();
+            this.ros.on('connection', function(error){
+                document.getElementById('state').innerHTML = "Connected";
+            });
+            this.ros.on('error', function(error){
+                document.getElementById('state').innerHTML = "Error";
+            });
+            this.ros.on('close', function(error){
+                document.getElementById('state').innerHTML = "Closed";
+            });
+            this.ros.connect('ws://' + location.hostname + ':9000');
+
+            var sub = new ROSLIB.Topic({
+                ros : this.ros,
+                name : '/key_type',
+                messageType : 'std_msgs/String'
+            });
+            sub.subscribe(function(message){
+                var com = message.data;
+                if((com >= '0' && com <= '9') || (com >= 'a' && com <= 'f')){
+                    if (com >= '0' && com <= '9'){
+                        var num = com;
+                    }
+                    if (com >= 'a' && com <= 'f'){
+                        var num = com.charCodeAt(0) - 87;
+                    }
+                    document.write(com + " -> 2進数形式で指定した数[" + num + "]になるまで順に表示\<BR\>")
+                }
+                else if(res == 'l'){
+                    document.write(com + " -> 全体点滅\<BR\>")
+                }
+                else if(res == 'p'){
+                    document.write(com + " -> 螺旋状に点灯\<BR\>")
+                }
+                else{
+                    document.write(com + " -> コマンドが存在しません\<BR\>")
+                }
+            });
+        }
+    }
+    Listener.init();
+    </script>
+    <p>status: <label id="state">Disconnect</label></p>
+  </body>
+</html>
